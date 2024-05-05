@@ -1,0 +1,4 @@
+{
+	"error.dataExist": "Data Already Exist",
+	"error.InternalError":"Internal Server Error"
+}

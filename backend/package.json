@@ -1,0 +1,30 @@
+{
+  "name": "budget_tracker",
+  "version": "1.0.0",
+  "description": "Budget Tracker",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mdominiquesay/budgetTrackerBackend.git"
+  },
+  "keywords": [
+    "NodeJs"
+  ],
+  "author": "Marie Dominique Say",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mdominiquesay/budgetTrackerBackend/issues"
+  },
+  "homepage": "https://github.com/mdominiquesay/budgetTrackerBackend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "i18n": "^0.15.1",
+    "knex": "^3.1.0",
+    "mysql": "^2.18.1"
+  }
+}
