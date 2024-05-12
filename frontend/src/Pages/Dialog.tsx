@@ -9,16 +9,19 @@ interface DialogDetails
     Close:string;
     Save:string;
 }
-function Example({ DialogDetails, onSubmit }: { DialogDetails: DialogDetails; onSubmit: () => Promise<void> ;  }) {
+function Example({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDetails; onSubmit: () => Promise<void> ; onClose: () => void ;  }) {
 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
     
-    const handleClose = () => setShow(false);
     const handleSubmit = async() => {
         await onSubmit();
         setShow(false);
     };
+    const handleClose = async() => {
+      onClose();
+      setShow(false);
+  };
     return (
       <>
         <Button variant="primary" onClick={handleShow}>

@@ -1,9 +1,13 @@
-import PortalExample from './Dialog';
+import BudgetDialog from './Dialog';
 import { useState, useEffect, ChangeEvent } from 'react';
 import Post from './Post.js';
 import Get from './Get.js';
 import { useNavigate } from 'react-router-dom';
-import BudgetMasterRow from '../component/BudgetMasterRow';
+import GetData from '../component/GetData';
+import BudgetMasterForm from '../component/BudgetMasterForm';
+import BusyIndicator from '../component/BusyIndicator';
+
+
 interface DialogDetails {
     Button: string;
     Title: string;
@@ -26,17 +30,21 @@ export default function HomePage() {
         Close: "Close",
         Save: "Save"
     });
-    const colspan=2;
+    const [loading,setLoading]=useState<boolean>(false);
+    
     const [formData, setFormData] = useState<FormData>({
         budget_name: '',
         id: 0
     });
     const [data, setData] = useState<FormData[]>([]);
-    const fetchData = () => {
+    const fetchData =  () => {
         const onSuccessFetch = (data: FormData[]) => {
             setData(data);
+            setLoading(false);
         };
+        setLoading(true);
         Get("budgetMaster", "", onSuccessFetch);
+        
     };
     useEffect(() => {
         fetchData();
@@ -57,58 +65,45 @@ export default function HomePage() {
         const updateBody = () => {
             setDetails(prevDetails => ({
                 ...prevDetails,
-                Body: <>
-                    <div className="form-check mb-3">
-                    <label htmlFor="budget_name" className="form-check-label">Enter your Budget Name:
-                        <input
-                            type="text"
-                            name="budget_name"
-                            id="budget_name"
-                            value={formData.budget_name}
-                            onChange={handleChange}
-                            className="form-control"
-                        />
-                    </label>
-                    </div>
-                </>
+                Body: <BudgetMasterForm budget_name={formData.budget_name} handleChange={handleChange}/>
             }));
         };
         updateBody();
         // eslint-disable-next-line
     }, [formData]); // Empty dependency array to ensure this effect runs only once, equivalent to componentDidMount in class components
     const handleSubmit = async () => {
+        setLoading(true);
         await Post("budgetMaster", "", formData);
         fetchData();
-        //setOpen(false);
+        handleClose();
     };
     const handleDelete = async (rowData: FormData) => {
+        setLoading(true);
         await Post("budgetMasterDelete", "", rowData);
         fetchData();
     };
     const handleNavigate = (path: string) => {
         navigate(path);;
    };
-
+   const handleClose=  () => {
+    setFormData({
+        budget_name: '',
+        id: 0
+    });
+   }
+   if (loading) {
+        return <BusyIndicator/>;
+    }
     return (
         <>
+        
             <div className="clipping-container">
-                <PortalExample DialogDetails={details}
+                <BudgetDialog DialogDetails={details}
                     onSubmit={handleSubmit}
+                    onClose={handleClose}
                 />
             </div>
-            <table className="table-sm table-striped">
-                <thead >
-                    <tr>
-                        <th>Budget</th>
-                        <th colSpan={colspan}>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((rowData, index) => (
-                        <BudgetMasterRow key={index} rowData={rowData} onDelete={handleDelete} onNavigate={handleNavigate} />
-                    ))}
-                </tbody>
-            </table>
+            <GetData data={data} onDelete={handleDelete} onNavigate={handleNavigate} />
         </>
     );
 }

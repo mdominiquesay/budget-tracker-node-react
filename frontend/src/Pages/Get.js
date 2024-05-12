@@ -1,13 +1,8 @@
 
-function GETBudget(route, params,onSuccess) {
+function Get(route, params,onSuccess) {
 
     fetch(`${process.env.REACT_APP_BACKEND_HOST}/${route}/${params}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        .then((response) => response.json())
         .then(result => {
             onSuccess(result);
         })
@@ -17,4 +12,4 @@ function GETBudget(route, params,onSuccess) {
 
 }
 
-export default GETBudget;
+export default Get;

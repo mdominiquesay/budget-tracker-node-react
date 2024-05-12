@@ -1,9 +1,9 @@
 
 const NavBar = () => {
     return (
-        <><ul class="nav">
-            <li class="nav-item">
-                <a class="nav-link" href="/">Home</a>
+        <><ul className="nav">
+            <li className="nav-item">
+                <a className="nav-link" href="/">Home</a>
             </li>
         </ul>
         </>
