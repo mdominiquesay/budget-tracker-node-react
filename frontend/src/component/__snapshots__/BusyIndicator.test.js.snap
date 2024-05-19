@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BusyIndicator renders correctly 1`] = `
+<div
+  className="busy-indicator"
+>
+  <div
+    className="spinner"
+  />
+  <p>
+    Loading...
+  </p>
+</div>
+`;
+
+exports[`BusyIndicator renders correctly 2`] = `
+<div
+  className="busy-indicator"
+>
+  <div
+    className="spinner"
+  />
+  <p>
+    Loading...
+  </p>
+</div>
+`;

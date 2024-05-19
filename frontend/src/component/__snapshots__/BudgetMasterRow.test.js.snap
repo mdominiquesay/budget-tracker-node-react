@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BudgetMasterForm renders correctly 1`] = `
+<div>
+  <div
+    class="form-check mb-3"
+  >
+    <label
+      class="form-check-label"
+      for="budget_name"
+    >
+      Enter your Budget Name:
+      <input
+        class="form-control"
+        id="budget_name"
+        name="budget_name"
+        type="text"
+        value="Test Budget"
+      />
+    </label>
+  </div>
+</div>
+`;

@@ -1,17 +1,15 @@
 import BudgetDialog from './Dialog';
 import { useState, useEffect, ChangeEvent } from 'react';
-import Post from './Post.js';
-import Get from './Get.js';
+import { GetBudgetAllMaster, SubmitBudgetMaster, DeleteBudgetMaster } from "../Model/BudgetModel";
 import { useNavigate } from 'react-router-dom';
 import GetData from '../component/GetData';
 import BudgetMasterForm from '../component/BudgetMasterForm';
 import BusyIndicator from '../component/BusyIndicator';
 
-
 interface DialogDetails {
     Button: string;
     Title: string;
-    Body: JSX.Element; // Body should accept JSX.Element
+    Body: JSX.Element; 
     Close: string;
     Save: string;
     
@@ -42,25 +40,21 @@ export default function HomePage() {
             setData(data);
             setLoading(false);
         };
+        const onError = (error:any) => {
+            
+        };
         setLoading(true);
-        Get("budgetMaster", "", onSuccessFetch);
+        GetBudgetAllMaster(onSuccessFetch,onError);
         
     };
     useEffect(() => {
         fetchData();
-    }, []); // Empty dependency array to ensure this effect runs only once, equivalent to componentDidMount in class components
-
-
+    }, []); 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        // Create a new object with updated data
         const updatedFormData = { ...formData, budget_name: value };
-        // Set the state with the new object
         setFormData(updatedFormData);
     };
-    
-    // Function to update Body with a new JSX element
-    
     useEffect(() => {
         const updateBody = () => {
             setDetails(prevDetails => ({
@@ -70,16 +64,16 @@ export default function HomePage() {
         };
         updateBody();
         // eslint-disable-next-line
-    }, [formData]); // Empty dependency array to ensure this effect runs only once, equivalent to componentDidMount in class components
+    }, [formData]); 
     const handleSubmit = async () => {
         setLoading(true);
-        await Post("budgetMaster", "", formData);
+        await SubmitBudgetMaster(formData);
         fetchData();
         handleClose();
     };
     const handleDelete = async (rowData: FormData) => {
         setLoading(true);
-        await Post("budgetMasterDelete", "", rowData);
+        await DeleteBudgetMaster(rowData);
         fetchData();
     };
     const handleNavigate = (path: string) => {
@@ -96,7 +90,6 @@ export default function HomePage() {
     }
     return (
         <>
-        
             <div className="clipping-container">
                 <BudgetDialog DialogDetails={details}
                     onSubmit={handleSubmit}

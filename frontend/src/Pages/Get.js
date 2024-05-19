@@ -1,5 +1,5 @@
 
-function Get(route, params,onSuccess) {
+function Get(route, params,onSuccess,onError) {
 
     fetch(`${process.env.REACT_APP_BACKEND_HOST}/${route}/${params}`)
         .then((response) => response.json())
@@ -7,7 +7,7 @@ function Get(route, params,onSuccess) {
             onSuccess(result);
         })
         .catch(error => {
-            console.error('Error fetching data:', error);
+            onError(error);
         });
 
 }
