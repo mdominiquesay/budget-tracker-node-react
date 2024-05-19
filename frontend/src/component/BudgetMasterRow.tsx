@@ -20,7 +20,7 @@ const BudgetMasterRow: React.FC<BudgetProps> = ({ rowData, onDelete, onNavigate 
     onDelete(rowData);
   }, [onDelete, rowData]);
   const handleView = useCallback(() => {
-    onNavigate("/edit/" + rowData.id);;
+    onNavigate("/edit/" + rowData.id);
   }, [rowData, onNavigate]);
   return (
     <tr>
