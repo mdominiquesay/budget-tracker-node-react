@@ -1,4 +1,6 @@
 {
 	"error.dataExist": "Data Already Exist",
-	"error.InternalError":"Internal Server Error"
+	"error.InternalError": "Internal Server Error",
+	"error.InvalidInput": "error.InvalidInput",
+	"success.DeleteSuccess": "success.DeleteSuccess"
 }

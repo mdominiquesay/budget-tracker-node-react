@@ -1,14 +1,9 @@
 import React, { useCallback } from 'react';
-
-interface Budget {
-  id: number;
-  budget_name: string;
-}
-
+import { FormData } from "../Model/BudgetModel";
 
 // Define a type for the props of the TaskRow component
 type BudgetProps = {
-  rowData: Budget;
+  rowData: FormData;
   onDelete: any;
   onNavigate: any;
 };

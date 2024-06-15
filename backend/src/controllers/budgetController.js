@@ -7,6 +7,7 @@ exports.getAll = async (request, response) => {
         var oResponse;
         const record_id = request.params.recordId; // Assuming the category is passed as a query parameter
         var select = "SELECT * FROM budget where budget_id= ? ";
+        console.log(select);
         db.query(select, [record_id], function (err, results) {
             if (err) {
                 oResponse = createResponse(CONSTANTS.HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, {
@@ -35,6 +36,7 @@ exports.delete = async (request, response) => {
         var oResponse;
         const record_id = request.params.recordId; // Assuming the category is passed as a query parameter
         var select = "delete FROM budget where record_id= ? ";
+        console.log(select);
         db.query(select, [record_id], function (err, results) {
             if (err) {
                 oResponse = createResponse(CONSTANTS.HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR, {
@@ -62,9 +64,11 @@ exports.create = async (request, response) => {
     try {
         // Extract data from request body
         const { record_id, description, amount, category } = request.body;
+        console.log("Insert");
         const existingStatus = await checkExist({ record_id, description, category });
         if (existingStatus.status === CONSTANTS.HTTP_STATUS_CODES.OK) {
             insertData(request.body, response);
+            response.status(oResponse.statusCode).send(oResponse);
         } else {
             var errorMessage = createResponse(existingStatus.status, existingStatus.message);
             response.status(existingStatus.status).send(errorMessage);
@@ -182,17 +186,19 @@ function insertData(data) {
             throw err;
         }
         oResponse = createResponse(CONSTANTS.HTTP_STATUS_CODES.OK, {});
+        
     });
 
 }
 function updateData(data, response) {
     try {
-        const { record_id, description, amount, category } = data;
-        const sql = "update budget set description=?, amount=?, category=? where record_id=?";
-       
+        const { id, description, amount, category } = data;
+        const sql = "update budget set description=?, amount=?, category=? where id=?";
+        console.log(sql);
         var oResponse;
+        console.log(data.description+", "+data.amount+", "+data.category+","+ id);
         // Execute the query with parameter values
-        db.query(sql, [data.description, data.amount, data.category, data.record_id], function (err) {
+        db.query(sql, [data.description, data.amount, data.category, data.id], function (err) {
             if (err) {
                 oResponse = createResponse(CONSTANTS.HTTP_STATUS_CODES.OK, {
                     message: i18n.__('error.InternalError'),
@@ -202,7 +208,7 @@ function updateData(data, response) {
                 throw err;
             }
             oResponse = createResponse(CONSTANTS.HTTP_STATUS_CODES.OK, {});
-            //response.status(oResponse.statusCode).send(oResponse);
+            response.status(oResponse.statusCode).send(oResponse);
         });
     } catch (error) {
         // Handle errors
@@ -225,6 +231,7 @@ function updateData(data, response) {
 
 exports.update = (request, response) => {
     try {
+        console.log("updateData");
         updateData(request.body, response)
     } catch (error) {
         // Handle errors
@@ -271,13 +278,14 @@ async function insertManyData(data) {
     }
 }
 
-async function checkExist({ record_id, description, category }) {
+async function checkExist({ budget_id, description, category }) {
     return new Promise((resolve, reject) => {
+
         try {
             var aConstants = CONSTANTS.HTTP_STATUS_CODES;
-            var select = "SELECT * FROM budget where record_id=? and category=? and description=? limit 1 ";
+            var select = "SELECT * FROM budget where budget_id=? and category=? and description=? limit 1 ";
             console.log(select);
-            db.query(select, [record_id, category, description], function (err, result) {
+            db.query(select, [budget_id, category, description], function (err, result) {
                 if (err) throw err;
                 if (!result || result.length === 0) {
                     resolve({ status: aConstants.OK }); // Return status code 200 if the record does not exist

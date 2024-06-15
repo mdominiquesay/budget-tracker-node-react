@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-interface DialogDetails
+export interface DialogDetails
 {
     Button:string;
     Title:string;
@@ -9,7 +9,7 @@ interface DialogDetails
     Close:string;
     Save:string;
 }
-function Example({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDetails; onSubmit: () => Promise<void> ; onClose: () => void ;  }) {
+export function Dialog({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDetails; onSubmit: () => Promise<void> ; onClose: () => void ;  }) {
 
     const [show, setShow] = useState(false);
     const handleShow = () => setShow(true);
@@ -28,7 +28,7 @@ function Example({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDet
           {DialogDetails.Button}
         </Button>
   
-        <Modal show={show} animation={false}>
+        <Modal show={show} animation={false} >
           <Modal.Header closeButton>
             <Modal.Title>{DialogDetails.Title}</Modal.Title>
           </Modal.Header>
@@ -37,7 +37,7 @@ function Example({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDet
             <Button variant="secondary" onClick={handleClose}>
             {DialogDetails.Close}
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button variant="primary"  onClick={handleSubmit}>
             {DialogDetails.Save}
             </Button>
           </Modal.Footer>
@@ -46,5 +46,3 @@ function Example({ DialogDetails, onSubmit,onClose }: { DialogDetails: DialogDet
     );
   
 }
-
-export default Example;

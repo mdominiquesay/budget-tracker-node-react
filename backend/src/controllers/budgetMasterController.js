@@ -85,6 +85,43 @@ exports.create = async (request, response) => {
                 response.status(error.status).send(error);
                 throw err;
             }
+            console.log(result);
+            console.log("1 record inserted");
+            return response.status(CONSTANTS.HTTP_STATUS_CODES.OK).send({ message: 'Budget created successfully' });
+            // Send a success response
+        });
+    } catch (error) {
+        var errorMessage={
+            status:CONSTANTS.HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+            message:i18n.__('error.InternalError'),
+            error:error
+        };
+        response.status(errorMessage.status).send(errorMessage);
+    }
+    /* {
+        "budget_name": "Initial Budget"
+    }*/
+
+};
+exports.edit = async (request, response) => {
+    
+    try {
+        // Extract data from request body
+        const { budget_name ,id } = request.body;
+        // SQL query to insert a new budget record
+        const sql = "update budget_master set budget_name=? where id=?";
+        // Execute the query with parameter values
+        db.query(sql, [budget_name,id], function (err, result) {
+            if (err) {
+                var error={
+                    status:CONSTANTS.HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+                    message:i18n.__('error.InternalError'),
+                    error:err
+                };
+                response.status(error.status).send(error);
+                throw err;
+            }
+            console.log(result);
             console.log("1 record inserted");
             return response.status(CONSTANTS.HTTP_STATUS_CODES.OK).send({ message: 'Budget created successfully' });
             // Send a success response

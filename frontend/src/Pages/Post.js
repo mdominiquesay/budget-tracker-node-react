@@ -1,6 +1,6 @@
 
 async function POSTBudget (route,params,formData) {
-
+    console.log(formData);
     try {
         const response = await fetch(`${process.env.REACT_APP_BACKEND_HOST}/${route}/${params}`, {
             method: 'POST',
@@ -11,6 +11,7 @@ async function POSTBudget (route,params,formData) {
         });
 
         if (!response.ok) {
+            console.log(formData);
             throw new Error('Failed to submit form');
         }
         
@@ -18,7 +19,7 @@ async function POSTBudget (route,params,formData) {
         // You might want to redirect the user or perform other actions upon successful submission
         return response;
     } catch (error) {
-        console.error('Error submitting form:', error);
+        console.log('Error submitting form:', error);
         // Handle error, display error message to the user, etc.
     }
     

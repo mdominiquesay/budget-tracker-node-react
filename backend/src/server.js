@@ -44,7 +44,8 @@ app.post('/budgetUpdateAll/:recordId', budgetController.updateAll);
 
 app.get('/category', categoryController.getAll);
 app.post('/category', categoryController.create);
-//app.get('/categoryDelete', categoryController.delete);
+app.get('/categoryDelete/:id', categoryController.delete);
+app.post('/categoryDelete', categoryController.deleteMany);
 //app.post('/categoryUpdate', categoryController.update);
 
 

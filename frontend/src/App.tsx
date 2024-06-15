@@ -1,21 +1,39 @@
 
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './Pages/HomePage';
-import EditPage from './Pages/EditPage';
+import { createBrowserRouter,
+  RouterProvider, } from 'react-router-dom';
+import HomePage,{HomePageLoader} from './Pages/HomePage';
 import NavBar from './Pages/NavBar';
+import Category,{CategoryLoader} from './Pages/Category';
+import ErrorPage from './Pages/Error';
+// Layouts
 function App() {
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <HomePage />,
+      loader: HomePageLoader,
+      errorElement: <ErrorPage />,
+      children: [
+        {
+          index: true,
+          element: <Category />,
+          loader: CategoryLoader,
+          errorElement: <ErrorPage />
+        }
+      ]
+    },{
+      path: "/category",
+      element: <Category />,
+      loader: CategoryLoader,
+      errorElement: <ErrorPage />
+    }
+  ]);
   return (
     <>
-      <div className="container pt-3">
-        
-        <BrowserRouter>
+      <div className="container pt-3">      
         <NavBar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/edit/*" element={<EditPage />} />
-          </Routes>
-        </BrowserRouter>
+          <RouterProvider router={router} />
       </div>
     </>
   );
