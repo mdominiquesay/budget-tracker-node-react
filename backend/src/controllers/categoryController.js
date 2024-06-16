@@ -4,7 +4,15 @@ const { CONSTANTS } = require("../utils/Constants.js");
 exports.getAll = async (request, response) => {
     try {
         var error;
-        var select = "SELECT * FROM category  ";
+        const params = request.query;
+        const fields = params.$select;
+        const sort = params.$sort;
+        var sortParam = "";
+        if (sort) {
+            sortParam = " ORDER BY " + sort;
+        }
+        var select = `SELECT ${fields} FROM category` + sortParam;
+        console.log(select);
         db.query(select, function (err, results) {
             if (err) {
                 error = {
@@ -155,7 +163,7 @@ exports.deleteMany = async (request, response) => {
     try {
         console.log("Delete");
         console.log(request.body);
-        const  categoryIds  = request.body;
+        const categoryIds = request.body;
         console.log(categoryIds);
         if (!categoryIds || !Array.isArray(categoryIds)) {
             return response.status(CONSTANTS.HTTP_STATUS_CODES.BAD_REQUEST).send({
